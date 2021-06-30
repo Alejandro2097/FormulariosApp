@@ -11,7 +11,7 @@
                 type="text"
                 placeholder="Nombre de la persona"
                 name="nombre"
-                ngModel
+                [ngModel]="persona.nombre"
                 required>
             <span class="form-text text-danger"
                 *ngIf="miFormualrio.controls.nombre?.errors">Este campo es obligatorio</span>
@@ -24,12 +24,16 @@
         <div class="col-sm-9">
             <div class="input-group">
                 <input class="form-control"
-                type="text"
-                placeholder="Agregar Favorito">
+                        type="text"
+                        placeholder="Agregar Favorito"
+                        [(ngModel)]="nuevoJuego"
+                        (keyup.enter)="agregarJuego()"
+                        name="nuevoJuego">
                 <button class="btn btn-primary"
-                    type="button">
+                    type="button"
+                    (click)="agregarJuego()">
                 Agregar
-            </button>
+                </button>
             </div>
             
         
@@ -39,11 +43,18 @@
      <div class="mb-3 row">
         <label class="col-sm-3 col-form-label">Favoritos </label>
         <div class="col-sm-9">
-            <input class="form-control mb-1">
-            <input class="form-control mb-1">
-            <input class="form-control mb-1">
-            <input class="form-control mb-1">
-            <input class="form-control mb-1">
+            <div class="input-group mb-1"
+                *ngFor="let juego of persona.favoritos; let i = index">
+                <input [(ngModel)]="juego.nombre"
+                    name="favorito_{{i}}"
+                    class="form-control">
+                    <button class="btn btn-outline-danger"
+                        type="button"
+                        (click)="eliminar(i)">
+                        Eliminar
+                    </button>
+            </div>
+            
         </div>
     </div>
     <div class="row">
@@ -57,3 +68,6 @@
         </div>
     </div>
 </form>
+
+<span>Persona</span>
+<pre>{{persona | json}}</pre>
